@@ -14,18 +14,17 @@ const Field = ({ label, darkMode, children }) => (
 );
 
 const inputCls = (darkMode) =>
-  `w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-    darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'}`;
+  `w-full px-4 py-2.5 rounded-xl border focus:outline-none focus:ring-2 focus:ring-purple-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'}`;
 
 const AddPG = () => {
   const { darkMode } = useApp();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    name:'', address:'', city:'', rent:'', description:'',
-    availableRooms:'', category:'Boys PG', type:'Single',
-    size:'', primaryImage:'', amenities:'', images:''
+    name: '', address: '', city: '', rent: '', description: '',
+    availableRooms: '', category: 'Boys PG', type: 'Single',
+    size: '', primaryImage: '', amenities: '', images: ''
   });
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,7 +38,7 @@ const AddPG = () => {
         rent: Number(form.rent),
         availableRooms: Number(form.availableRooms),
         amenities: form.amenities.split(',').map(a => a.trim()).filter(Boolean),
-        images:    form.images.split(',').map(i => i.trim()).filter(Boolean),
+        images: form.images.split(',').map(i => i.trim()).filter(Boolean),
       });
       alert('PG submitted for admin verification! It will appear on the site once approved.');
       navigate('/owner');
@@ -50,9 +49,9 @@ const AddPG = () => {
     }
   };
 
-  const bg   = darkMode ? 'bg-gray-900' : 'bg-gray-50';
+  const bg = darkMode ? 'bg-gray-900' : 'bg-gray-50';
   const card = darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200';
-  const txt  = darkMode ? 'text-white' : 'text-gray-900';
+  const txt = darkMode ? 'text-white' : 'text-gray-900';
 
   return (
     <div className={`min-h-screen py-12 ${bg}`}>

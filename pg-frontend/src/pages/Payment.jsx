@@ -15,7 +15,7 @@ const loadRazorpayScript = () =>
     if (window.Razorpay) { resolve(true); return; }
     const s = document.createElement("script");
     s.src = "https://checkout.razorpay.com/v1/checkout.js";
-    s.onload  = () => resolve(true);
+    s.onload = () => resolve(true);
     s.onerror = () => resolve(false);
     document.head.appendChild(s);
   });
@@ -24,9 +24,9 @@ const loadRazorpayScript = () =>
 const Step = ({ num, label, active, done }) => (
   <div className="flex items-center gap-2">
     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-      ${done  ? "bg-emerald-500 text-white"
-      : active ? "bg-purple-600 text-white"
-               : "bg-gray-300 text-gray-600"}`}>
+      ${done ? "bg-emerald-500 text-white"
+        : active ? "bg-purple-600 text-white"
+          : "bg-gray-300 text-gray-600"}`}>
       {done ? <CheckCircle className="w-4 h-4" /> : num}
     </div>
     <span className={`text-sm font-medium hidden sm:block
@@ -38,22 +38,22 @@ const Step = ({ num, label, active, done }) => (
 
 const Payment = () => {
   const { darkMode, cartItems, clearCart, user } = useApp();
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Support both cart checkout and direct PG booking
   const bookingData = location.state || null;
 
-  const [step, setStep]         = useState(1); // 1=details, 2=payment, 3=success
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState("");
+  const [step, setStep] = useState(1); // 1=details, 2=payment, 3=success
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [bookingResult, setBookingResult] = useState(null);
 
   const [form, setForm] = useState({
-    name:  user?.name  || "",
+    name: user?.name || "",
     email: user?.email || "",
     phone: "",
-    city:  "",
+    city: "",
   });
 
   // Check if keys are configured
@@ -91,15 +91,15 @@ const Payment = () => {
 
       // Open Razorpay checkout
       const options = {
-        key:         RAZORPAY_KEY,
-        amount:      Math.round(order.amount * 100),
-        currency:    "INR",
-        name:        "ComfortPG",
+        key: RAZORPAY_KEY,
+        amount: Math.round(order.amount * 100),
+        currency: "INR",
+        name: "ComfortPG",
         description: `Booking: ${order.pgName || pgName}`,
-        order_id:    order.orderId,
+        order_id: order.orderId,
         prefill: {
-          name:    form.name,
-          email:   form.email,
+          name: form.name,
+          email: form.email,
           contact: form.phone,
         },
         notes: { address: form.city },
@@ -108,16 +108,16 @@ const Payment = () => {
         handler: async (response) => {
           try {
             const result = await verifyRazorpayPayment({
-              razorpayOrderId:   response.razorpay_order_id,
+              razorpayOrderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
-              bookingId:         String(order.bookingId),
+              bookingId: String(order.bookingId),
             });
             setBookingResult({
-              bookingId:  order.bookingId,
-              pgName:     order.pgName,
-              amount:     order.amount,
-              paymentId:  response.razorpay_payment_id,
+              bookingId: order.bookingId,
+              pgName: order.pgName,
+              amount: order.amount,
+              paymentId: response.razorpay_payment_id,
             });
             clearCart();
             setStep(3);
@@ -185,7 +185,7 @@ const Payment = () => {
             <div className="flex justify-between">
               <span className={darkMode ? "text-gray-400" : "text-gray-500"}>Payment ID</span>
               <span className={`font-mono text-xs ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
-                {bookingResult.paymentId?.slice(0,20)}...
+                {bookingResult.paymentId?.slice(0, 20)}...
               </span>
             </div>
           </div>
@@ -208,11 +208,11 @@ const Payment = () => {
     </div>
   );
 
-  const bg   = darkMode ? "bg-gray-900" : "bg-gray-50";
+  const bg = darkMode ? "bg-gray-900" : "bg-gray-50";
   const card = darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200";
-  const txt  = darkMode ? "text-white" : "text-gray-900";
-  const sub  = darkMode ? "text-gray-400" : "text-gray-500";
-  const inp  = darkMode
+  const txt = darkMode ? "text-white" : "text-gray-900";
+  const sub = darkMode ? "text-gray-400" : "text-gray-500";
+  const inp = darkMode
     ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
     : "bg-white border-gray-300 text-gray-900 placeholder-gray-400";
 
@@ -232,9 +232,9 @@ const Payment = () => {
         <div className="flex items-center gap-4 mb-8">
           <Step num={1} label="Your Details" active={step === 1} done={step > 1} />
           <div className={`flex-1 h-0.5 ${step > 1 ? "bg-purple-500" : "bg-gray-300"}`} />
-          <Step num={2} label="Payment"      active={step === 2} done={step > 2} />
+          <Step num={2} label="Payment" active={step === 2} done={step > 2} />
           <div className={`flex-1 h-0.5 ${step > 2 ? "bg-purple-500" : "bg-gray-300"}`} />
-          <Step num={3} label="Confirmed"    active={step === 3} done={step > 3} />
+          <Step num={3} label="Confirmed" active={step === 3} done={step > 3} />
         </div>
 
         {!hasRazorpayKey && (
