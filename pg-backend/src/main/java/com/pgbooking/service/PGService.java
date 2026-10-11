@@ -130,20 +130,4 @@ public class PGService {
         Double minRent, Double maxRent, String amenity) {
     // Keep your existing method body
 }
-
-    @Transactional(readOnly = true)
-    public PG getPGById(Long id) {
-        return pgRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("PG not found"));
-    }
-
-    @Transactional(readOnly = true)
-    public List<PG> getPGsByOwner(User owner) {
-        return pgRepository.findByOwner(owner);
-    }
-
-    @Transactional(readOnly = true)
-    public List<PG> getPendingPGs() {
-        return pgRepository.findByVerificationStatus("PENDING");
-    }
 }
