@@ -6,6 +6,7 @@ import com.pgbooking.repository.PGRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Stream;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PGService {
@@ -121,5 +122,28 @@ public class PGService {
             if (pg.getAmenities().stream().noneMatch(a -> a.equalsIgnoreCase(t))) return false;
         }
         return true;
+    }
+
+    @Transactional(readOnly = true)
+        public List<PG> searchPGs(
+        String q, String category, String roomType,
+        Double minRent, Double maxRent, String amenity) {
+    // Keep your existing method body
+}
+
+    @Transactional(readOnly = true)
+    public PG getPGById(Long id) {
+        return pgRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("PG not found"));
+    }
+
+    @Transactional(readOnly = true)
+    public List<PG> getPGsByOwner(User owner) {
+        return pgRepository.findByOwner(owner);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PG> getPendingPGs() {
+        return pgRepository.findByVerificationStatus("PENDING");
     }
 }
