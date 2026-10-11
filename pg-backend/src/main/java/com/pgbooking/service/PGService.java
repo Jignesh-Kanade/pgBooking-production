@@ -1,5 +1,5 @@
 package com.pgbooking.service;
-
+import org.springframework.transaction.annotation.Transactional;
 import com.pgbooking.model.PG;
 import com.pgbooking.model.User;
 import com.pgbooking.repository.PGRepository;
@@ -28,6 +28,11 @@ public class PGService {
                 .filter(pg -> matchesAmenity(pg, amenity))
                 .toList();
     }
+
+    @Transactional(readOnly = true)
+        public List<PG> getPGsByOwner(User owner) {
+        return pgRepository.findByOwner(owner);
+    } 
 
     public PG getPGById(Long id) {
         return pgRepository.findById(id)
