@@ -161,7 +161,7 @@ public class PG {
     @Column(length = 50)
     private String verificationStatus = "PENDING";
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "pg_amenities", joinColumns = @JoinColumn(name = "pg_id"))
     @Column(name = "amenity", length = 255)
     private List<String> amenities = new ArrayList<>();
