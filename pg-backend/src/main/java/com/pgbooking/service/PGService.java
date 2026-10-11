@@ -6,7 +6,6 @@ import com.pgbooking.repository.PGRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Stream;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PGService {
@@ -123,11 +122,4 @@ public class PGService {
         }
         return true;
     }
-
-    @Transactional(readOnly = true)
-        public List<PG> searchPGs(
-        String q, String category, String roomType,
-        Double minRent, Double maxRent, String amenity) {
-    // Keep your existing method body
-}
 }
