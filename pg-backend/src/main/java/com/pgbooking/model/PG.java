@@ -166,7 +166,7 @@ public class PG {
     @Column(name = "amenity", length = 255)
     private List<String> amenities = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "pg_images", joinColumns = @JoinColumn(name = "pg_id"))
     @Column(name = "image_url", columnDefinition = "TEXT")
     private List<String> images = new ArrayList<>();
