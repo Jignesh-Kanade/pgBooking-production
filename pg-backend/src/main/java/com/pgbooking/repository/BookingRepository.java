@@ -9,8 +9,19 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByUser(User user);
+
     List<Booking> findByPg(PG pg);
+
     List<Booking> findByPg_Owner(User owner);
+
+    @Query("""
+        SELECT b
+        FROM Booking b
+        JOIN FETCH b.user
+        JOIN FETCH b.pg p
+        LEFT JOIN FETCH p.owner
+        """)
+    List<Booking> findAllWithDetails();
 
     @Query("SELECT COALESCE(SUM(b.ownerEarnings), 0) FROM Booking b WHERE b.pg.owner = :owner AND b.status = 'CONFIRMED'")
     double sumOwnerEarnings(User owner);
